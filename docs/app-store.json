@@ -1,21 +1,21 @@
 {
   "_doc": "App Store Connect に API で入れる情報（.github/workflows/asc.yml の metadata が読む）。文字数：name・subtitle 30、keywords 100（カンマ区切り）、promotionalText 170、description 4000。カテゴリの ID は EDUCATION・PRODUCTIVITY・UTILITIES・LIFESTYLE・HEALTH_AND_FITNESS など。審査への提出と App プライバシーの申告は本人が行う。",
   "locale": "ja",
-  "name": "",
-  "subtitle": "",
-  "primaryCategory": "",
-  "secondaryCategory": "",
+  "name": "みみ合わせ：音の神経衰弱",
+  "subtitle": "めくると鳴る。耳だけでそろえる",
+  "primaryCategory": "GAMES",
+  "secondaryCategory": "EDUCATION",
   "supportUrl": "https://github.com/enludus-daily/app-20261112-mimi-awase/issues",
   "privacyPolicyUrl": "https://github.com/enludus-daily/app-20261112-mimi-awase/blob/main/PRIVACY.md",
-  "keywords": "",
-  "promotionalText": "",
-  "description": "",
-  "whatToTest": "",
+  "keywords": "音感,音痴,耳コピ,ドレミ,和音,音程,神経衰弱,絶対音感,相対音感,カラオケ,ピアノ,ギター,練習,トレーニング,パズル",
+  "promotionalText": "絵のない神経衰弱。めくると音が鳴り、同じ高さの音を耳だけで見つけてそろえます。同じ音・オクターブ・和音・音程の60段階と、毎日かわる今日の盤。",
+  "description": "みみ合わせは、音だけで遊ぶ神経衰弱です。\n\nカードには絵がありません。めくると音が鳴ります。さっき聞いたあの音と同じ高さのカードはどれ？ 耳だけを頼りに 2 枚をそろえます。音を聞き分けること、そのものが遊びの入力なので、遊ぶうちに音の高さを聞き分ける耳が育ちます。\n\n■ 4 つの遊び方・60 の段階\n・同じ音：同じ高さの音を 2 枚そろえる\n・オクターブ：高さはちがっても、同じ音名ならペア\n・和音：長・短・sus4・減・増・長七、転回まで\n・音程：2 つの音の幅が同じならペア（短2度〜オクターブ）\n4 枚の盤から始まり、24 枚・半音ちがいまで少しずつ難しくなります。\n\n■ 毎日開く理由\n・今日の盤：毎日かわる 6 組の盤。続けた日数が残ります\n・聞き直し：取り違えた 2 つの音を、並べて聞き比べられます。取り違えた音は次の盤に少し多く出ます\n・聞き分けの記録：モードごとの正確さ、取り違えやすい音、遊んだ日のマス\n\n■ 外れても責めません\nはじめて聞く 2 枚で外れても、点は減りません。覚えていた音で当てたときだけ「聞き分け」に数えます。\n\n■ 音はその場で合成\nピアノに近いやわらかい音を、その場で作って鳴らします。イヤホンなしでも聞き分けやすい高さ（真ん中のドから 2 オクターブ）に絞っています。ドレミ・C D E の書き方を選べます。\n\n■ みみ合わせ Pro（買い切り・サブスクではありません）\n・和音と音程の全 24 段階\n・聞き直しの盤（取り違えた音だけで盤を作る）\n・音色 オルゴール・マリンバ\n・26 週の記録\n今日の盤、同じ音とオクターブの 30 段階、和音と音程の 3 段階ずつ、記録はずっと無料です。\n\n記録はこの iPhone の中だけに残ります。アカウント・広告・解析はありません。",
+  "whatToTest": "1. はじめての 4 枚の盤で、カードを押して音が鳴るか、同じ音の 2 枚がそろうか。2. ホームの「今日の盤」を最後まで遊び、結果の「聞き直し」で 2 つの音が続けて鳴るか。3. 段階を進め、和音の 4 段で Pro の画面が出るか。サンドボックスで購入と「購入を復元」。4. 設定でドレミ / C D E と音色を変える。5. 記録で取り違えやすい音が出るか。",
   "en-US": {
-    "name": "",
-    "subtitle": "",
-    "keywords": "",
-    "promotionalText": "",
-    "description": ""
+    "name": "Ear Pairs: Pitch Memory",
+    "subtitle": "Memory match, played by ear",
+    "keywords": "ear training,pitch,tone deaf,perfect pitch,relative pitch,interval,chord,memory,match,singing,piano",
+    "promotionalText": "A memory game with no pictures. Each card plays a sound. Find the matching pitch by ear. 60 levels of notes, octaves, chords and intervals, plus a new board every day.",
+    "description": "Ear Pairs is a memory match game you play with your ears.\n\nThe cards have no pictures. Turn one over and it plays a sound. Which card had that same pitch? Pair them up by ear alone. Telling sounds apart is the game itself, so your ear for pitch gets sharper as you play.\n\nFOUR WAYS TO PLAY, 60 LEVELS\n• Same note: pair two cards of the same pitch\n• Octaves: same note name, one octave apart\n• Chords: major, minor, sus4, dim, aug, maj7 and inversions\n• Intervals: the same distance between two notes (minor 2nd to octave)\nStart with 4 cards and work up to 24 cards a half step apart.\n\nA REASON TO COME BACK\n• Today's board: a new 6-pair board every day, with your streak\n• Listen again: replay the two sounds you mixed up, side by side. Sounds you confuse show up a little more often\n• Listening log: accuracy per mode, the sounds you mix up, and a grid of days played\n\nNO PENALTY FOR EXPLORING\nMissing on two sounds you've never heard costs nothing. Only matches of sounds you already heard count toward accuracy.\n\nSYNTHESIZED ON THE SPOT\nSoft, piano-like tones are generated live, in a range that's easy to hear on the iPhone speaker. Choose Do Re Mi or C D E names.\n\nEAR PAIRS PRO (one-time purchase, no subscription)\n• All 24 chord and interval levels\n• Review boards built from the sounds you mix up\n• Music box and marimba sounds\n• 26 weeks of history\nToday's board, all 30 same-note and octave levels, the first 3 chord and interval levels, and your log stay free.\n\nYour log stays on this iPhone. No account, no ads, no analytics."
   }
 }
