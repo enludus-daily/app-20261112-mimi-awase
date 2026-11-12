@@ -177,7 +177,7 @@ struct RecordView: View {
                     .font(Typo.small)
                     .foregroundStyle(Palette.sub)
             } else {
-                ForEach(top.map(\.0), id: \.self) { confusion in
+                ForEach(top.map { $0.0 }, id: \.self) { confusion in
                     ConfusionRow(confusion: confusion, count: model.progress.confusionCounts[confusion])
                 }
                 Button {

@@ -166,7 +166,7 @@ enum Script {
             guard let game = model.session?.game, let a = unmatched(model).first, let b = game.partner(of: a.id) else { return }
             model.flip(a.id)
             if pause > 0 { try? await Task.sleep(for: .milliseconds(Int(pause * 1000))) }
-            model.flip(b.id)
+            model.flip(b)
             if pause > 0 { try? await Task.sleep(for: .milliseconds(Int(pause * 1000))) }
         }
     }

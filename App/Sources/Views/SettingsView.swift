@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     @State private var reminderDenied = false
+    @State private var reminderWanted = false
     @State private var restoreMessage: LocalizedStringKey?
 
     var body: some View {
@@ -67,16 +68,16 @@ struct SettingsView: View {
 
                 Section {
                     Toggle(isOn: $model.hapticsOn) { Text("振動") }
-                    Toggle(isOn: Binding(
-                        get: { model.reminderOn },
-                        set: { on in
-                            Task {
-                                await model.setReminder(on)
-                                reminderDenied = on && !model.reminderOn
-                            }
-                        }
-                    )) {
+                    Toggle(isOn: $reminderWanted) {
                         Text("今日の盤のお知らせ（20:00）")
+                    }
+                    .onChange(of: reminderWanted) { _, on in
+                        guard on != model.reminderOn else { return }
+                        Task { @MainActor in
+                            await model.setReminder(on)
+                            reminderDenied = on && !model.reminderOn
+                            reminderWanted = model.reminderOn
+                        }
                     }
                     if reminderDenied {
                         Button("通知が許可されていません。設定を開く") {
@@ -135,5 +136,6 @@ struct SettingsView: View {
             }
         }
         .tint(Palette.skyDeep)
+        .onAppear { reminderWanted = model.reminderOn }
     }
 }
