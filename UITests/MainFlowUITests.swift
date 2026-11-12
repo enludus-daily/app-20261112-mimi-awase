@@ -8,13 +8,23 @@ import XCTest
 /// その日のアプリの主な流れ。
 enum MainFlow {
     /// 起動引数（見本のデータで開くなど。保存されたデータを壊さないもの）
-    static let launchArguments: [String] = []
+    /// 見本の記録で開き（保存しない）、日本語で撮る（CI のシミュレータは英語。日本語の並びを確かめる）
+    static let launchArguments: [String] = ["-screenshotScene", "home", "-AppleLanguages", "(ja)", "-AppleLocale", "ja_JP"]
 
     /// 1 操作ずつ。各操作のあとに撮る。
     static let steps: [Step] = [
-        .tap("main.increment"),
-        .tap("main.increment"),
-        .tap("main.reset"),
+        .tap("main.daily"),
+        .tap("main.card0"),
+        .tap("main.card1"),
+        .wait(1.5),
+        .tap("main.card2"),
+        .tap("main.card3"),
+        .wait(1.5),
+        .tap("main.closeBoard"),
+        .tap("main.record"),
+        .tap("main.closeRecord"),
+        .tap("main.settings"),
+        .tap("main.closeSettings"),
     ]
 }
 

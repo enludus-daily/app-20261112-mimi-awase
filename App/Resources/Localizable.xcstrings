@@ -1,6 +1,886 @@
 {
   "sourceLanguage": "ja",
   "strings": {
+    "盤を閉じる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close board"
+          }
+        }
+      }
+    },
+    "手数": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moves"
+          }
+        }
+      }
+    },
+    "残り %lld 組": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld pairs left"
+          }
+        }
+      }
+    },
+    "外れても大丈夫。音を覚えていこう": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Misses are fine. Just remember the sounds."
+          }
+        }
+      }
+    },
+    "3つ星の目安 %lld 手": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 stars in %lld moves"
+          }
+        }
+      }
+    },
+    "伏せたカード": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face-down card"
+          }
+        }
+      }
+    },
+    "めくったカード": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turned card"
+          }
+        }
+      }
+    },
+    "そろったカード %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matched card %@"
+          }
+        }
+      }
+    },
+    "星 %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld stars"
+          }
+        }
+      }
+    },
+    "みみ合わせ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ear Pairs"
+          }
+        }
+      }
+    },
+    "聞き分けの記録": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listening log"
+          }
+        }
+      }
+    },
+    "設定": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "今日の盤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's board"
+          }
+        }
+      }
+    },
+    "続けて %lld 日": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld-day streak"
+          }
+        }
+      }
+    },
+    "6 組 · 毎日かわる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "6 pairs · new every day"
+          }
+        }
+      }
+    },
+    "今日の盤をもう一度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play today's board again"
+          }
+        }
+      }
+    },
+    "今日の盤をはじめる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start today's board"
+          }
+        }
+      }
+    },
+    "段階": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Levels"
+          }
+        }
+      }
+    },
+    "無料": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free"
+          }
+        }
+      }
+    },
+    "3 段まで無料": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Levels 1–3 free"
+          }
+        }
+      }
+    },
+    "聞き直しの盤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review board"
+          }
+        }
+      }
+    },
+    "取り違えた音が、ここにたまります": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sounds you mix up will gather here"
+          }
+        }
+      }
+    },
+    "%lld 枚": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld cards"
+          }
+        }
+      }
+    },
+    "%lld 段": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        }
+      }
+    },
+    "まだ開いていない": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locked"
+          }
+        }
+      }
+    },
+    "音だけの、神経衰弱": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memory, played by ear"
+          }
+        }
+      }
+    },
+    "カードには絵がありません。めくると音が鳴ります。同じ音を耳だけで見つけて、2 枚そろえます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cards have no pictures. Each one plays a sound when you turn it. Find the matching sound by ear and pair them up."
+          }
+        }
+      }
+    },
+    "遊ぶうちに、音の高さを聞き分ける耳が育ちます": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As you play, your ear for pitch gets sharper"
+          }
+        }
+      }
+    },
+    "同じ音 → オクターブ → 和音 → 音程の順に進みます": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Same note → octaves → chords → intervals"
+          }
+        }
+      }
+    },
+    "イヤホンなしでも遊べます。音量は小さめから": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No headphones needed. It starts quiet."
+          }
+        }
+      }
+    },
+    "4 枚の盤で試す": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try a 4-card board"
+          }
+        }
+      }
+    },
+    "耳を、もっと先まで": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take your ear further"
+          }
+        }
+      }
+    },
+    "みみ合わせ Pro は 1 回だけの買い切りです。サブスクではありません。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ear Pairs Pro is a one-time purchase. No subscription."
+          }
+        }
+      }
+    },
+    "和音と音程の 24 段階": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24 chord and interval levels"
+          }
+        }
+      }
+    },
+    "長・短・sus4・減・増・長七、転回まで。音程は短2度からオクターブまで。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Major, minor, sus4, dim, aug, maj7 and inversions. Intervals from a minor 2nd to an octave."
+          }
+        }
+      }
+    },
+    "取り違えた音だけで、何度でも 6 組の盤を作ります。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Builds 6-pair boards from just the sounds you mix up, as often as you like."
+          }
+        }
+      }
+    },
+    "音色 オルゴール・マリンバ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Music box and marimba sounds"
+          }
+        }
+      }
+    },
+    "同じ音でも、音色が変わると聞き分けの練習になります。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hearing the same note in a new timbre is great ear practice."
+          }
+        }
+      }
+    },
+    "26 週の記録": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "26 weeks of history"
+          }
+        }
+      }
+    },
+    "半年ぶんの遊んだ日を、1 枚のマスで。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Half a year of play on one grid."
+          }
+        }
+      }
+    },
+    "今日の盤・同じ音とオクターブの 30 段階・和音と音程の 3 段階ずつ・記録は、ずっと無料です。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's board, all 30 same-note and octave levels, the first 3 chord and interval levels, and your log stay free forever."
+          }
+        }
+      }
+    },
+    "購入を復元": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore purchase"
+          }
+        }
+      }
+    },
+    "Pro を復元しました": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro restored"
+          }
+        }
+      }
+    },
+    "復元できる購入が見つかりませんでした": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No purchase to restore was found"
+          }
+        }
+      }
+    },
+    "プライバシーポリシー": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        }
+      }
+    },
+    "閉じる": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "無料の段階をおえました": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You finished the free levels"
+          }
+        }
+      }
+    },
+    "この段階は Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This level is Pro"
+          }
+        }
+      }
+    },
+    "聞き直しの盤は Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review boards are Pro"
+          }
+        }
+      }
+    },
+    "この音色は Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This sound is Pro"
+          }
+        }
+      }
+    },
+    "26 週の記録は Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "26-week history is Pro"
+          }
+        }
+      }
+    },
+    "押すと鳴ります：Pro の和音の盤に出る音": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to listen: chords from the Pro boards"
+          }
+        }
+      }
+    },
+    "ありがとうございます！ Pro が使えます": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thank you! Pro is unlocked"
+          }
+        }
+      }
+    },
+    "購入の承認を待っています": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for purchase approval"
+          }
+        }
+      }
+    },
+    "購入できませんでした。時間をおいてもう一度お試しください": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The purchase didn't go through. Please try again later."
+          }
+        }
+      }
+    },
+    "Pro を買う": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Pro"
+          }
+        }
+      }
+    },
+    "1 回だけのお支払い。ファミリー共有に対応しています。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pay once. Family Sharing supported."
+          }
+        }
+      }
+    },
+    "いまは購入できません": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchases aren't available right now"
+          }
+        }
+      }
+    },
+    "App Store につながらないようです。電波のよい所で、もう一度開いてください。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't reach the App Store. Try again with a better connection."
+          }
+        }
+      }
+    },
+    "もう一度読み込む": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        }
+      }
+    },
+    "続けた日": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak"
+          }
+        }
+      }
+    },
+    "遊んだ日の合計": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Days played"
+          }
+        }
+      }
+    },
+    "そろえた組": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pairs found"
+          }
+        }
+      }
+    },
+    "まだ記録がありません": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing logged yet"
+          }
+        }
+      }
+    },
+    "今日の盤を 1 回遊ぶと、どの音を取り違えやすいかがここに出ます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play today's board once and you'll see which sounds you tend to mix up."
+          }
+        }
+      }
+    },
+    "遊んだ日": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Days played"
+          }
+        }
+      }
+    },
+    "26 週": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "26 weeks"
+          }
+        }
+      }
+    },
+    "26 週は Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "26 weeks with Pro"
+          }
+        }
+      }
+    },
+    "遊んだ日の合計 %lld 日": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld days played in all"
+          }
+        }
+      }
+    },
+    "聞き分けの正確さ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listening accuracy"
+          }
+        }
+      }
+    },
+    "覚えていたはずの音で、当てられた割合です。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How often you matched a sound you had already heard."
+          }
+        }
+      }
+    },
+    "取り違えやすい音": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sounds you mix up"
+          }
+        }
+      }
+    },
+    "取り違えはまだありません。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No mix-ups yet."
+          }
+        }
+      }
+    },
+    "この音で聞き直しの盤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review board with these"
+          }
+        }
+      }
+    },
+    "聞き直しの盤（Pro）": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review board (Pro)"
+          }
+        }
+      }
+    },
+    "耳で、そろえられました": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You matched them by ear"
+          }
+        }
+      }
+    },
+    "今日の盤、おしまい": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's board, done"
+          }
+        }
+      }
+    },
+    "聞き直し、おしまい": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review, done"
+          }
+        }
+      }
+    },
+    "ぴたりと合いました": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfectly in tune"
+          }
+        }
+      }
+    },
+    "そろいました": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All paired"
+          }
+        }
+      }
+    },
+    "3つ星の目安": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3-star moves"
+          }
+        }
+      }
+    },
+    "聞き分け": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accuracy"
+          }
+        }
+      }
+    },
+    "そろえた音": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sounds you paired"
+          }
+        }
+      }
+    },
+    "聞き直し": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen again"
+          }
+        }
+      }
+    },
+    "取り違えはありません。耳がよく合っています。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No mix-ups. Your ear is right on."
+          }
+        }
+      }
+    },
+    "取り違えた音は、次の盤に少し多く出ます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sounds you mixed up will show up a little more often."
+          }
+        }
+      }
+    },
+    "もう一度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Again"
+          }
+        }
+      }
+    },
+    "共有": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      }
+    },
     "はじめる": {
       "localizations": {
         "en": {
@@ -11,32 +891,212 @@
         }
       }
     },
-    "リセット": {
+    "ホームへ": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reset"
+            "value": "Home"
           }
         }
       }
     },
-    "1 たす": {
+    "次の段階へ": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add 1"
+            "value": "Next level"
           }
         }
       }
     },
-    "回数 %lld": {
+    "次の段階（Pro）": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Count %lld"
+            "value": "Next level (Pro)"
+          }
+        }
+      }
+    },
+    "2 つの音を続けて鳴らす": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plays the two sounds one after the other"
+          }
+        }
+      }
+    },
+    "ドレミ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do Re Mi"
+          }
+        }
+      }
+    },
+    "音の名前": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note names"
+          }
+        }
+      }
+    },
+    "そろったカードに音の名前を出す": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show note names on matched cards"
+          }
+        }
+      }
+    },
+    "書き方": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notation"
+          }
+        }
+      }
+    },
+    "ドレミで覚えるか、C D E で覚えるかを選べます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn with Do Re Mi or with C D E."
+          }
+        }
+      }
+    },
+    "音の大きさ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume"
+          }
+        }
+      }
+    },
+    "音": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound"
+          }
+        }
+      }
+    },
+    "音はその場で合成しています。消音スイッチがオンでも鳴ります（音そのものが遊びの入力のため）。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sounds are synthesized on the spot. They play even in silent mode, because the sound is the game."
+          }
+        }
+      }
+    },
+    "振動": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haptics"
+          }
+        }
+      }
+    },
+    "今日の盤のお知らせ（20:00）": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily board reminder (8 PM)"
+          }
+        }
+      }
+    },
+    "通知が許可されていません。設定を開く": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are off. Open Settings"
+          }
+        }
+      }
+    },
+    "手ざわり": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feel"
+          }
+        }
+      }
+    },
+    "Pro を使っています。ありがとうございます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're using Pro. Thank you!"
+          }
+        }
+      }
+    },
+    "Pro でできること": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What Pro adds"
+          }
+        }
+      }
+    },
+    "はじめての盤をもう一度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay the first board"
+          }
+        }
+      }
+    },
+    "そのほか": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        }
+      }
+    },
+    "記録はこの iPhone の中だけに残ります。外へ送ることはありません。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your log stays on this iPhone. Nothing is sent anywhere."
           }
         }
       }
