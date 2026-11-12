@@ -213,7 +213,8 @@ struct ProgressTests {
         var p = Progress()
         p.record(result(.stage("unison-1"), confusions: [Confusion(.chord(root: 60, quality: .major), .chord(root: 60, quality: .minor))]), on: day, calendar: calendar)
         let data = try JSONEncoder().encode(p)
-        #expect(try JSONDecoder().decode(Progress.self, from: data) == p)
+        let decoded = try JSONDecoder().decode(Progress.self, from: data)
+        #expect(decoded == p)
     }
 
     @Test func weeksEndToday() {
