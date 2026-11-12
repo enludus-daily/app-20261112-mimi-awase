@@ -38,7 +38,8 @@ struct BoardMakerTests {
         let groups = Dictionary(grouping: cards, by: \.concept)
         #expect(groups.count == stage.pairs)
         #expect(groups.values.allSatisfy { $0.count == 2 })
-        #expect(Set(cards.map(\.id)) == Set(0..<cards.count))
+        let ids = Set(cards.map { $0.id })
+        #expect(ids == Set(0..<cards.count))
     }
 
     @Test(arguments: Stage.all(.unison))
