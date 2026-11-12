@@ -9,10 +9,15 @@ struct StageTests {
     }
 
     @Test func chordAndIntervalHaveThreeFreeStages() {
-        #expect(Stage.all(.chord).filter(\.isFree).count == 3)
-        #expect(Stage.all(.interval).filter(\.isFree).count == 3)
-        #expect(Stage.all(.unison).allSatisfy(\.isFree))
-        #expect(Stage.all(.octave).allSatisfy(\.isFree))
+        // #expect の中でキーパスを使うと「Call can throw」になるので、外で数えてから確かめる
+        let chordFree = Stage.all(.chord).filter { $0.isFree }.count
+        let intervalFree = Stage.all(.interval).filter { $0.isFree }.count
+        let unisonAllFree = Stage.all(.unison).allSatisfy { $0.isFree }
+        let octaveAllFree = Stage.all(.octave).allSatisfy { $0.isFree }
+        #expect(chordFree == 3)
+        #expect(intervalFree == 3)
+        #expect(unisonAllFree)
+        #expect(octaveAllFree)
     }
 
     @Test func firstBoardIsFourCards() {
