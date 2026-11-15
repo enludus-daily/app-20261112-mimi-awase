@@ -9,7 +9,13 @@ struct HomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                header
+                // 見出しは夜の池の上に浮かべる（池がホームの主役）
+                pond
+                    .overlay(alignment: .top) {
+                        header
+                            .padding(.horizontal, 16)
+                            .padding(.top, 12)
+                    }
                 if sizeClass == .regular {
                     // 広い画面（iPhone Duo の内側など）：左に今日の盤、右に段階
                     HStack(alignment: .top, spacing: 20) {
@@ -33,22 +39,55 @@ struct HomeView: View {
             .frame(maxWidth: sizeClass == .regular ? 980 : 560)
             .frame(maxWidth: .infinity)
         }
-        .background(Palette.mist.ignoresSafeArea())
+        .background(NightBackground(lines: false))
+    }
+
+    // MARK: 夜の池（触ると鳴る。今日の盤の音が静かな波紋で浮かぶ）
+
+    private var pond: some View {
+        let marks = Self.pondMarks(for: model.now, calendar: model.calendar)
+        return NightPond(marks: marks) { midi in
+            model.synth.play(.note(midi), gain: 0.8)
+        }
+        .frame(height: sizeClass == .regular ? 210 : 176)
+        .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: Radius.l, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+        .overlay(alignment: .bottomLeading) {
+            Text("触ると音が鳴ります")
+                .font(Typo.label)
+                .kerning(1.0)
+                .foregroundStyle(Palette.sub)
+                .padding(12)
+                .allowsHitTesting(false)
+        }
+    }
+
+    /// 日ごとに変わる、池に浮かぶ 3 つの静かな波紋
+    static func pondMarks(for date: Date, calendar: Calendar) -> [NightPond.Mark] {
+        let day = calendar.ordinality(of: .day, in: .era, for: date) ?? 0
+        let scale = NightPond.scale
+        return (0..<3).map { i in
+            let k = (day * (i + 3) + i * 5) % scale.count
+            let xs: [CGFloat] = [0.24, 0.5, 0.4]
+            let ys: [CGFloat] = [0.64, 0.8, 0.5]
+            return NightPond.Mark(x: xs[i] + CGFloat((day + i) % 3) * 0.04, y: ys[i], midi: scale[k], scale: ([1.0, 0.8, 0.6] as [CGFloat])[i])
+        }
     }
 
     // MARK: 見出し
 
     private var header: some View {
-        HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(model.now, format: .dateTime.month().day().weekday())
                     .font(Typo.label)
                     .kerning(0.8)
                     .foregroundStyle(Palette.sub)
+                    .textCase(.uppercase)
                 Text("みみ合わせ")
-                    .font(Typo.serif(32))
-                    .kerning(-1)
-                    .foregroundStyle(Palette.ink)
+                    .font(Typo.display(32, .ultraLight))
+                    .kerning(1.5)
+                    .foregroundStyle(Palette.text)
             }
             Spacer()
             HStack(spacing: 8) {
@@ -60,12 +99,7 @@ struct HomeView: View {
 
     private func iconButton(_ systemName: String, label: LocalizedStringKey, id: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Image(systemName: systemName)
-                .font(.system(size: 15))
-                .foregroundStyle(Palette.skyDeep)
-                .frame(width: 44, height: 44)
-                .background(Circle().fill(Palette.paper))
-                .overlay(Circle().stroke(Palette.rule, lineWidth: 1))
+            GlassIcon(systemName: systemName)
         }
         .buttonStyle(PressStyle())
         .accessibilityLabel(Text(label))
@@ -83,9 +117,8 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     SectionLabel(text: "今日の盤")
                     Text(verbatim: mode.title(japanese: model.japanese))
-                        .font(Typo.serif(26))
-                        .kerning(-0.6)
-                        .foregroundStyle(Palette.ink)
+                        .font(Typo.display(28, .light))
+                        .foregroundStyle(Palette.text)
                     Text(verbatim: mode.rule(japanese: model.japanese))
                         .font(Typo.small)
                         .foregroundStyle(Palette.sub)
@@ -99,13 +132,13 @@ struct HomeView: View {
                 Label {
                     Text("続けて \(streak) 日")
                 } icon: {
-                    Image(systemName: "drop")
+                    Image(systemName: "moon.stars")
                 }
                 .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(Palette.skyDeep)
+                .foregroundStyle(Palette.moon)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(Capsule().fill(Palette.skySoft))
+                .background(Capsule().fill(Palette.moonSoft))
                 Text("6 組 · 毎日かわる")
                     .font(Typo.small)
                     .foregroundStyle(Palette.sub)
@@ -123,12 +156,7 @@ struct HomeView: View {
             .accessibilityIdentifier("main.daily")
         }
         .padding(18)
-        .background(
-            RoundedRectangle(cornerRadius: Radius.l, style: .continuous)
-                .fill(Palette.paper)
-                .shadow(color: Palette.shadow, radius: 10, y: 4)
-        )
-        .overlay(RoundedRectangle(cornerRadius: Radius.l, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+        .glassPanel(stroke: Palette.glowLine.opacity(0.6))
     }
 
     // MARK: 段階
@@ -139,7 +167,7 @@ struct HomeView: View {
                 SectionLabel(text: "段階")
                 Spacer()
                 Text("\(model.progress.totalStars(model.selectedMode)) / 45")
-                    .font(Typo.serif(14))
+                    .font(Typo.display(14, .regular))
                     .monospacedDigit()
                     .foregroundStyle(Palette.sub)
             }
@@ -174,17 +202,25 @@ struct HomeView: View {
                                 .font(.system(size: 9))
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.7)
-                                .foregroundStyle(selected ? Palette.skyDeep : Palette.sub)
+                                .foregroundStyle(selected ? Palette.ebonyText.opacity(0.6) : Palette.sub)
                         } else {
                             Text("無料")
                                 .font(.system(size: 9))
-                                .foregroundStyle(selected ? Palette.skyDeep : Palette.sub)
+                                .foregroundStyle(selected ? Palette.ebonyText.opacity(0.6) : Palette.sub)
                         }
                     }
-                    .foregroundStyle(selected ? Palette.skyDeep : Palette.ink)
-                    .frame(maxWidth: .infinity, minHeight: 48)
-                    .background(RoundedRectangle(cornerRadius: Radius.s + 2, style: .continuous).fill(selected ? Palette.skySoft : Palette.paper))
-                    .overlay(RoundedRectangle(cornerRadius: Radius.s + 2, style: .continuous).stroke(selected ? Palette.skyLine : Palette.rule, lineWidth: 1))
+                    // 選んだモードは白鍵、ほかは黒鍵
+                    .foregroundStyle(selected ? Palette.ebonyText : Palette.text)
+                    .frame(maxWidth: .infinity, minHeight: 52)
+                    .background(
+                        UnevenRoundedRectangle(topLeadingRadius: 4, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 4, style: .continuous)
+                            .fill(selected ? Palette.ivory : Palette.ebony)
+                    )
+                    .overlay(
+                        UnevenRoundedRectangle(topLeadingRadius: 4, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 4, style: .continuous)
+                            .stroke(Color.white.opacity(selected ? 0 : 0.14), lineWidth: 1)
+                    )
+                    .glow(Palette.glow, radius: 8, opacity: selected ? 0.35 : 0)
                 }
                 .buttonStyle(PressStyle())
                 .accessibilityAddTraits(selected ? .isSelected : [])
@@ -201,8 +237,8 @@ struct HomeView: View {
         } label: {
             HStack(spacing: 14) {
                 ZStack {
-                    Circle().fill(Palette.peachSoft)
-                    PairMark(style: PairStyle(shape: RippleShape(sides: 0, petals: 5), tint: Palette.peach))
+                    Circle().fill(Palette.ebony)
+                    PairMark(style: PairStyle(shape: RippleShape(sides: 0, petals: 5), tint: Palette.pitch(66)))
                         .padding(9)
                 }
                 .frame(width: 52, height: 52)
@@ -210,14 +246,14 @@ struct HomeView: View {
                     HStack(spacing: 6) {
                         Text("聞き直しの盤")
                             .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Palette.ink)
+                            .foregroundStyle(Palette.text)
                         if !model.isPro {
                             Text("Pro")
                                 .font(.system(size: 10, weight: .semibold))
-                                .foregroundStyle(Palette.peachDeep)
+                                .foregroundStyle(Palette.moon)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
-                                .background(Capsule().fill(Palette.peachSoft))
+                                .background(Capsule().fill(Palette.moonSoft))
                         }
                     }
                     if top.isEmpty {
@@ -237,8 +273,7 @@ struct HomeView: View {
                     .foregroundStyle(Palette.sub)
             }
             .padding(14)
-            .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(Palette.paper))
-            .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+            .glassPanel(radius: Radius.m)
         }
         .buttonStyle(PressStyle())
         .disabled(model.isPro && top.isEmpty)
@@ -261,13 +296,13 @@ struct StageTile: View {
             VStack(spacing: 5) {
                 ZStack {
                     Text("\(stage.number)")
-                        .font(Typo.serif(20))
+                        .font(Typo.display(22, .light))
                         .monospacedDigit()
-                        .foregroundStyle(open ? Palette.ink : Palette.sub.opacity(0.6))
+                        .foregroundStyle(open ? Palette.text : Palette.sub.opacity(0.6))
                     if locked {
                         Image(systemName: "lock.fill")
                             .font(.system(size: 8))
-                            .foregroundStyle(Palette.peachDeep)
+                            .foregroundStyle(Palette.moon)
                             .offset(x: 14, y: -10)
                     }
                 }
@@ -277,9 +312,10 @@ struct StageTile: View {
                     .foregroundStyle(Palette.sub)
             }
             .frame(maxWidth: .infinity, minHeight: 72)
-            .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(isNext ? Palette.skySoft : Palette.paper))
-            .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(isNext ? Palette.sky : Palette.rule, lineWidth: isNext ? 1.4 : 1))
-            .opacity(open ? 1 : 0.55)
+            .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(isNext ? Palette.glowSoft : Palette.glass))
+            .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(isNext ? Palette.glow : Palette.rule, lineWidth: isNext ? 1.4 : 1))
+            .glow(Palette.glow, radius: 8, opacity: isNext ? 0.4 : 0)
+            .opacity(open ? 1 : 0.5)
         }
         .buttonStyle(PressStyle())
         .disabled(!open)

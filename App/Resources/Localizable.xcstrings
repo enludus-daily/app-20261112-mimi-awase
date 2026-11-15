@@ -1100,6 +1100,26 @@
           }
         }
       }
+    },
+    "夜の池": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night pond"
+          }
+        }
+      }
+    },
+    "触ると音が鳴ります": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touch the water to hear it"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

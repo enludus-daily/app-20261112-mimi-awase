@@ -9,7 +9,7 @@ struct ResultPanel: View {
 
     var body: some View {
         ZStack {
-            Palette.ink.opacity(0.18).ignoresSafeArea()
+            Palette.nightBottom.opacity(0.55).ignoresSafeArea()
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(spacing: 16) {
@@ -31,8 +31,9 @@ struct ResultPanel: View {
             .frame(maxWidth: 460)
             .background(
                 RoundedRectangle(cornerRadius: Radius.l + 6, style: .continuous)
-                    .fill(Palette.mist)
-                    .shadow(color: Palette.shadowLift, radius: 18, y: 8)
+                    .fill(LinearGradient(colors: [Palette.nightTop, Palette.nightBottom], startPoint: .top, endPoint: .bottom))
+                    .overlay(RoundedRectangle(cornerRadius: Radius.l + 6, style: .continuous).stroke(Palette.glowLine.opacity(0.6), lineWidth: 1))
+                    .shadow(color: Palette.shadow, radius: 24, y: 10)
             )
             .padding(.horizontal, 16)
             .padding(.vertical, 24)
@@ -50,9 +51,8 @@ struct ResultPanel: View {
         VStack(spacing: 8) {
             EmblemView(size: 64, trigger: model.finishTick)
             Text(headline)
-                .font(Typo.serif(26))
-                .kerning(-0.6)
-                .foregroundStyle(Palette.ink)
+                .font(Typo.display(26, .light))
+                .foregroundStyle(Palette.text)
                 .multilineTextAlignment(.center)
             RippleStars(count: result.stars, size: 18)
         }
@@ -76,8 +76,7 @@ struct ResultPanel: View {
             stat(value: accuracyText, label: "聞き分け")
         }
         .padding(.vertical, 12)
-        .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(Palette.paper))
-        .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+        .glassPanel(radius: Radius.m)
     }
 
     private var accuracyText: String {
@@ -93,13 +92,13 @@ struct ResultPanel: View {
     private func stat(value: String, label: LocalizedStringKey) -> some View {
         VStack(spacing: 2) {
             Text(verbatim: value)
-                .font(Typo.serif(24))
-                .kerning(-0.8)
+                .font(Typo.display(28, .thin))
+                .kerning(-0.5)
                 .monospacedDigit()
-                .foregroundStyle(Palette.ink)
+                .foregroundStyle(Palette.text)
             Text(label)
                 .font(Typo.label)
-                .kerning(0.5)
+                .kerning(1.0)
                 .foregroundStyle(Palette.sub)
         }
         .frame(maxWidth: .infinity)
@@ -114,7 +113,7 @@ struct ResultPanel: View {
             VStack(alignment: .leading, spacing: 6) {
                 SectionLabel(text: "そろえた音")
                 KeyboardStrip(lit: notes, low: 60, octaves: 2)
-                    .frame(height: 46)
+                    .frame(height: 52)
                 Text(verbatim: session.game.foundOrder.map { model.label($0) }.joined(separator: "  ·  "))
                     .font(Typo.small)
                     .foregroundStyle(Palette.sub)
@@ -214,13 +213,14 @@ struct ConfusionRow: View {
             HStack(spacing: 12) {
                 Image(systemName: "play.fill")
                     .font(.system(size: 11))
-                    .foregroundStyle(Palette.skyDeep)
+                    .foregroundStyle(Palette.glowStrong)
                     .frame(width: 32, height: 32)
-                    .background(Circle().fill(Palette.skySoft))
+                    .background(Circle().fill(Palette.ebony))
+                    .overlay(Circle().stroke(Palette.glowLine, lineWidth: 1))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(verbatim: "\(model.longLabel(confusion.a))  ↔  \(model.longLabel(confusion.b))")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Palette.ink)
+                        .foregroundStyle(Palette.text)
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
                     if let distance = Concept.distance(confusion.a, confusion.b, japanese: model.japanese) {
@@ -232,14 +232,13 @@ struct ConfusionRow: View {
                 Spacer(minLength: 0)
                 if let count {
                     Text(verbatim: "×\(count)")
-                        .font(Typo.serif(15))
+                        .font(Typo.display(16, .regular))
                         .monospacedDigit()
-                        .foregroundStyle(Palette.peachDeep)
+                        .foregroundStyle(Palette.moon)
                 }
             }
             .padding(10)
-            .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(Palette.paper))
-            .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+            .glassPanel(radius: Radius.m)
         }
         .buttonStyle(PressStyle())
         .accessibilityLabel(Text(verbatim: "\(model.longLabel(confusion.a)), \(model.longLabel(confusion.b))"))

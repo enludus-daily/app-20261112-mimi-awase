@@ -34,13 +34,13 @@ struct RootView: View {
         .animation(.easeOut(duration: 0.3), value: model.session?.id)
         .animation(.easeOut(duration: 0.35), value: model.onboarded)
         .environment(model)
-        // 淡い水色の地が世界観の中心。ダークでは波紋の色が沈むので、ライトに固定する
-        .preferredColorScheme(.light)
+        // 夜の水面が世界観の中心（光る波紋は暗い地でいちばん映える）。ダークに固定する
+        .preferredColorScheme(.dark)
         .modifier(JapaneseForScreenshots())
         .sheet(item: $model.activeSheet) { sheet in
             sheetView(sheet)
                 .environment(model)
-                .preferredColorScheme(.light)
+                .preferredColorScheme(.dark)
                 .modifier(JapaneseForScreenshots())
         }
         .sensoryFeedback(trigger: model.flipTick) { _, _ in model.hapticsOn ? .selection : nil }

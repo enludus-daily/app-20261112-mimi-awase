@@ -22,7 +22,7 @@ struct RecordView: View {
                 .frame(maxWidth: 620)
                 .frame(maxWidth: .infinity)
             }
-            .background(Palette.mist.ignoresSafeArea())
+            .background(NightBackground())
             .navigationTitle(Text("聞き分けの記録"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -32,7 +32,7 @@ struct RecordView: View {
                 }
             }
         }
-        .tint(Palette.skyDeep)
+        .tint(Palette.glowStrong)
     }
 
     // MARK: -
@@ -47,20 +47,19 @@ struct RecordView: View {
             big("\(model.progress.totalPairs)", "そろえた組")
         }
         .padding(.vertical, 16)
-        .background(RoundedRectangle(cornerRadius: Radius.l, style: .continuous).fill(Palette.paper))
-        .overlay(RoundedRectangle(cornerRadius: Radius.l, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+        .glassPanel()
     }
 
     private func big(_ value: String, _ label: LocalizedStringKey) -> some View {
         VStack(spacing: 2) {
             Text(verbatim: value)
-                .font(Typo.serif(34))
-                .kerning(-1.5)
+                .font(Typo.display(38, .thin))
+                .kerning(-1)
                 .monospacedDigit()
-                .foregroundStyle(Palette.ink)
+                .foregroundStyle(Palette.text)
             Text(label)
                 .font(Typo.label)
-                .kerning(0.5)
+                .kerning(1.0)
                 .foregroundStyle(Palette.sub)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
@@ -73,8 +72,8 @@ struct RecordView: View {
         VStack(spacing: 14) {
             EmblemView(size: 96)
             Text("まだ記録がありません")
-                .font(Typo.serif(20))
-                .foregroundStyle(Palette.ink)
+                .font(Typo.display(22, .light))
+                .foregroundStyle(Palette.text)
             Text("今日の盤を 1 回遊ぶと、どの音を取り違えやすいかがここに出ます。")
                 .font(Typo.small)
                 .foregroundStyle(Palette.sub)
@@ -108,7 +107,7 @@ struct RecordView: View {
                     } label: {
                         Text("26 週は Pro")
                             .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(Palette.peachDeep)
+                            .foregroundStyle(Palette.moon)
                     }
                 }
             }
@@ -121,10 +120,10 @@ struct RecordView: View {
                         let rect = CGRect(x: CGFloat(w) * (cell + gap), y: CGFloat(d) * (cell + gap), width: cell, height: cell)
                         let color: Color
                         switch value {
-                        case 0: color = Palette.rule.opacity(0.6)
-                        case 1: color = Palette.skyLine
-                        case 2: color = Palette.sky
-                        default: color = Palette.skyDeep.opacity(0.75)
+                        case 0: color = Color.white.opacity(0.06)
+                        case 1: color = Palette.glow.opacity(0.35)
+                        case 2: color = Palette.glow.opacity(0.7)
+                        default: color = Palette.glowStrong
                         }
                         context.fill(Path(roundedRect: rect, cornerRadius: 2), with: .color(color))
                     }
@@ -144,20 +143,21 @@ struct RecordView: View {
                 HStack(spacing: 12) {
                     Text(verbatim: mode.title(japanese: model.japanese))
                         .font(.system(size: 13))
-                        .foregroundStyle(Palette.ink)
+                        .foregroundStyle(Palette.text)
                         .frame(width: 92, alignment: .leading)
                     GeometryReader { proxy in
                         ZStack(alignment: .leading) {
-                            Capsule().fill(Palette.rule.opacity(0.7))
-                            Capsule().fill(Palette.sky)
+                            Capsule().fill(Color.white.opacity(0.08))
+                            Capsule().fill(Palette.glow)
+                                .glow(Palette.glow, radius: 4, opacity: 0.5)
                                 .frame(width: proxy.size.width * CGFloat(tally.rate ?? 0))
                         }
                     }
                     .frame(height: 8)
                     Text(verbatim: tally.rate.map { "\(Int(($0 * 100).rounded()))%" } ?? "—")
-                        .font(Typo.serif(15))
+                        .font(Typo.display(16, .regular))
                         .monospacedDigit()
-                        .foregroundStyle(Palette.ink)
+                        .foregroundStyle(Palette.text)
                         .frame(width: 46, alignment: .trailing)
                 }
                 .accessibilityElement(children: .combine)

@@ -29,7 +29,8 @@ targets:
         # 標準の HTTPS 以外の暗号を使わない前提。使うなら本人に戻す（輸出規制の申告が変わる）
         ITSAppUsesNonExemptEncryption: false
         LSRequiresIPhoneOS: true
-        UILaunchScreen: {}
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         UISupportedInterfaceOrientations:

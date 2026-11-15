@@ -25,6 +25,7 @@ struct SettingsView: View {
                 } footer: {
                     Text("ドレミで覚えるか、C D E で覚えるかを選べます。")
                 }
+                .listRowBackground(Palette.glass)
 
                 Section {
                     ForEach(Timbre.allCases) { timbre in
@@ -38,15 +39,15 @@ struct SettingsView: View {
                         } label: {
                             HStack {
                                 Text(verbatim: timbre.name(japanese: model.japanese))
-                                    .foregroundStyle(Palette.ink)
+                                    .foregroundStyle(Palette.text)
                                 if timbre.isPro && !model.isPro {
                                     Text(verbatim: "Pro")
                                         .font(.system(size: 10, weight: .semibold))
-                                        .foregroundStyle(Palette.peachDeep)
+                                        .foregroundStyle(Palette.moon)
                                 }
                                 Spacer()
                                 if model.timbre == timbre {
-                                    Image(systemName: "checkmark").foregroundStyle(Palette.skyDeep)
+                                    Image(systemName: "checkmark").foregroundStyle(Palette.glowStrong)
                                 }
                             }
                         }
@@ -65,6 +66,7 @@ struct SettingsView: View {
                 } footer: {
                     Text("音はその場で合成しています。消音スイッチがオンでも鳴ります（音そのものが遊びの入力のため）。")
                 }
+                .listRowBackground(Palette.glass)
 
                 Section {
                     Toggle(isOn: $model.hapticsOn) { Text("振動") }
@@ -88,11 +90,12 @@ struct SettingsView: View {
                 } header: {
                     Text("手ざわり")
                 }
+                .listRowBackground(Palette.glass)
 
                 Section {
                     if model.isPro {
                         Label { Text("Pro を使っています。ありがとうございます。") } icon: { Image(systemName: "checkmark.seal") }
-                            .foregroundStyle(Palette.skyDeep)
+                            .foregroundStyle(Palette.glowStrong)
                     } else {
                         Button {
                             model.activeSheet = .paywall(.settings)
@@ -112,6 +115,7 @@ struct SettingsView: View {
                 } header: {
                     Text(verbatim: "Pro")
                 }
+                .listRowBackground(Palette.glass)
 
                 Section {
                     Button("はじめての盤をもう一度") { model.resetTutorial() }
@@ -123,9 +127,10 @@ struct SettingsView: View {
                 } footer: {
                     Text("記録はこの iPhone の中だけに残ります。外へ送ることはありません。")
                 }
+                .listRowBackground(Palette.glass)
             }
             .scrollContentBackground(.hidden)
-            .background(Palette.mist.ignoresSafeArea())
+            .background(NightBackground())
             .navigationTitle(Text("設定"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -135,7 +140,7 @@ struct SettingsView: View {
                 }
             }
         }
-        .tint(Palette.skyDeep)
+        .tint(Palette.glowStrong)
         .onAppear { reminderWanted = model.reminderOn }
     }
 }

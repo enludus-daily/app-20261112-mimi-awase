@@ -267,3 +267,52 @@ struct SoundTests {
         #expect(ToneRenderer.duration(of: .interval(start: 60, semitones: 7)) > ToneRenderer.duration(of: .note(60)))
     }
 }
+
+/// 夜の水面の見た目の決まり（音の高さ＝色、池の音）
+@MainActor
+struct NightWaterTests {
+    /// 色相の差（輪の上の近いほう。0〜0.5）
+    private func gap(_ a: Int, _ b: Int) -> Double {
+        let d = abs(Palette.pitchHue(a) - Palette.pitchHue(b))
+        return min(d, 1 - d)
+    }
+
+    @Test func octaveSharesTheSameColor() {
+        #expect(Palette.pitchHue(60) == Palette.pitchHue(72))
+        #expect(Palette.pitchHue(61) == Palette.pitchHue(49))
+    }
+
+    @Test func semitoneNeighborsAreFarApartAndFifthsAreClose() {
+        // 半音となり（取り違えやすい）は色相が 5/12 離れ、5 度は 1/12 だけ離れる
+        for m in 60..<72 {
+            #expect(abs(gap(m, m + 1) - 5.0 / 12) < 0.0001)
+            #expect(abs(gap(m, m + 7) - 1.0 / 12) < 0.0001)
+        }
+    }
+
+    @Test func everyPitchClassHasItsOwnColor() {
+        let hues = Set((60..<72).map { Int((Palette.pitchHue($0) * 1200).rounded()) })
+        #expect(hues.count == 12)
+    }
+
+    @Test func pondGoesFromLowOnTheLeftToHighOnTheRight() {
+        let width: CGFloat = 300
+        #expect(NightPond.midi(atX: 0, width: width) == NightPond.scale.first)
+        #expect(NightPond.midi(atX: width, width: width) == NightPond.scale.last)
+        #expect(NightPond.midi(atX: -10, width: width) == NightPond.scale.first)
+        #expect(NightPond.midi(atX: 10, width: 0) == 60)
+        let xs = stride(from: CGFloat(0), through: width, by: 10).map { NightPond.midi(atX: $0, width: width) }
+        #expect(xs == xs.sorted())
+    }
+
+    @Test func pondMarksChangeByDayAndStayInTheScale() {
+        let calendar = Calendar(identifier: .gregorian)
+        let day = Date(timeIntervalSince1970: 1_800_000_000)
+        let same = HomeView.pondMarks(for: day, calendar: calendar)
+        #expect(same == HomeView.pondMarks(for: day, calendar: calendar))
+        #expect(same.count == 3)
+        #expect(same.allSatisfy { NightPond.scale.contains($0.midi) })
+        let week = (0..<7).map { HomeView.pondMarks(for: day.addingTimeInterval(Double($0) * 86_400), calendar: calendar).map(\.midi) }
+        #expect(Set(week).count > 1)
+    }
+}

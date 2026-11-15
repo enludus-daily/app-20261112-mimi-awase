@@ -16,9 +16,8 @@ struct OnboardingView: View {
                     }
                 VStack(spacing: 10) {
                     Text("音だけの、神経衰弱")
-                        .font(Typo.serif(30))
-                        .kerning(-0.8)
-                        .foregroundStyle(Palette.ink)
+                        .font(Typo.display(30, .light))
+                        .foregroundStyle(Palette.text)
                         .multilineTextAlignment(.center)
                     Text("カードには絵がありません。めくると音が鳴ります。同じ音を耳だけで見つけて、2 枚そろえます。")
                         .font(.system(size: 15))
@@ -32,15 +31,14 @@ struct OnboardingView: View {
                     point("speaker.wave.1", "イヤホンなしでも遊べます。音量は小さめから")
                 }
                 .padding(16)
-                .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(Palette.paper))
-                .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+                .glassPanel(radius: Radius.m)
             }
             .padding(.horizontal, 24)
             .frame(maxWidth: 520)
             Spacer(minLength: 20)
         }
         .frame(maxWidth: .infinity)
-        .background(Palette.mist.ignoresSafeArea())
+        .background(NightBackground())
         .safeAreaInset(edge: .bottom) {
             Button {
                 model.startTutorial()
@@ -59,11 +57,11 @@ struct OnboardingView: View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 13))
-                .foregroundStyle(Palette.skyDeep)
+                .foregroundStyle(Palette.glowStrong)
                 .frame(width: 22)
             Text(text)
                 .font(.system(size: 13))
-                .foregroundStyle(Palette.ink)
+                .foregroundStyle(Palette.text)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

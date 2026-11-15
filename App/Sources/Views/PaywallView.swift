@@ -18,11 +18,10 @@ struct PaywallView: View {
                         Text(headline)
                             .font(Typo.label)
                             .kerning(0.6)
-                            .foregroundStyle(Palette.peachDeep)
+                            .foregroundStyle(Palette.moon)
                         Text("耳を、もっと先まで")
-                            .font(Typo.serif(28))
-                            .kerning(-0.8)
-                            .foregroundStyle(Palette.ink)
+                            .font(Typo.display(30, .light))
+                            .foregroundStyle(Palette.text)
                         Text("みみ合わせ Pro は 1 回だけの買い切りです。サブスクではありません。")
                             .font(.system(size: 13))
                             .foregroundStyle(Palette.sub)
@@ -35,8 +34,7 @@ struct PaywallView: View {
                         Feature(systemName: "music.note", title: "音色 オルゴール・マリンバ", detail: "同じ音でも、音色が変わると聞き分けの練習になります。")
                         Feature(systemName: "square.grid.3x3", title: "26 週の記録", detail: "半年ぶんの遊んだ日を、1 枚のマスで。", last: true)
                     }
-                    .background(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).fill(Palette.paper))
-                    .overlay(RoundedRectangle(cornerRadius: Radius.m, style: .continuous).stroke(Palette.rule, lineWidth: 1))
+                    .glassPanel(radius: Radius.m)
                     Text("今日の盤・同じ音とオクターブの 30 段階・和音と音程の 3 段階ずつ・記録は、ずっと無料です。")
                         .font(.system(size: 12))
                         .foregroundStyle(Palette.sub)
@@ -46,7 +44,7 @@ struct PaywallView: View {
                 .frame(maxWidth: 560)
                 .frame(maxWidth: .infinity)
             }
-            .background(Palette.mist.ignoresSafeArea())
+            .background(NightBackground())
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 VStack(spacing: 10) {
                     buyArea
@@ -63,7 +61,7 @@ struct PaywallView: View {
                         }
                     }
                     .font(.system(size: 12))
-                    .foregroundStyle(Palette.skyDeep)
+                    .foregroundStyle(Palette.glowStrong)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
@@ -71,7 +69,7 @@ struct PaywallView: View {
                 .frame(maxWidth: 560)
                 .frame(maxWidth: .infinity)
                 .background(
-                    Palette.mist
+                    Palette.nightBottom
                         .overlay(alignment: .top) { Rectangle().fill(Palette.rule).frame(height: 1) }
                         .ignoresSafeArea(edges: .bottom)
                 )
@@ -84,7 +82,7 @@ struct PaywallView: View {
                 }
             }
         }
-        .tint(Palette.skyDeep)
+        .tint(Palette.glowStrong)
         .task {
             if model.purchases.loadState == .idle { await model.purchases.load() }
         }
@@ -118,14 +116,15 @@ struct PaywallView: View {
                         model.listen(sample.0)
                     } label: {
                         VStack(spacing: 4) {
-                            PairMark(style: PairStyle.of(sample.1))
+                            let style = PairStyle.of(sample.1, concept: sample.0)
+                            PairMark(style: style)
                                 .padding(10)
                                 .aspectRatio(1, contentMode: .fit)
-                                .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Palette.paper))
-                                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(PairStyle.of(sample.1).tint, lineWidth: 1.2))
+                                .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Palette.ebony))
+                                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(style.tint.opacity(0.8), lineWidth: 1.2))
                             Text(verbatim: model.label(sample.0))
                                 .font(.system(size: 11, weight: .medium))
-                                .foregroundStyle(Palette.ink)
+                                .foregroundStyle(Palette.text)
                         }
                     }
                     .buttonStyle(PressStyle())
@@ -166,9 +165,14 @@ struct PaywallView: View {
                             Text(verbatim: product.displayPrice)
                         }
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Palette.ebonyText)
                         .frame(maxWidth: .infinity, minHeight: 52)
-                        .background(Capsule().fill(Palette.skyDeep))
+                        .background(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(Palette.ivory)
+                                .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Color(hex: 0xA7AEC4)).offset(y: 3))
+                        )
+                        .glow(Palette.moon, radius: 10, opacity: 0.3)
                     }
                     .buttonStyle(PressStyle())
                     .disabled(buying)
@@ -181,7 +185,7 @@ struct PaywallView: View {
                 VStack(spacing: 4) {
                     Text("いまは購入できません")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Palette.ink)
+                        .foregroundStyle(Palette.text)
                     Text("App Store につながらないようです。電波のよい所で、もう一度開いてください。")
                         .font(.system(size: 12))
                         .foregroundStyle(Palette.sub)
@@ -189,14 +193,14 @@ struct PaywallView: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Button("もう一度読み込む") { Task { await model.purchases.load() } }
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Palette.skyDeep)
+                        .foregroundStyle(Palette.glowStrong)
                 }
                 .frame(maxWidth: .infinity)
             }
             if let message {
                 Text(message)
                     .font(.system(size: 12))
-                    .foregroundStyle(Palette.skyDeep)
+                    .foregroundStyle(Palette.glowStrong)
                     .multilineTextAlignment(.center)
             }
         }
@@ -214,11 +218,12 @@ struct Feature: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: systemName)
                     .font(.system(size: 14))
-                    .foregroundStyle(Palette.skyDeep)
+                    .foregroundStyle(Palette.glowStrong)
                     .frame(width: 32, height: 32)
-                    .background(Circle().fill(Palette.skySoft))
+                    .background(Circle().fill(Palette.ebony))
+                    .overlay(Circle().stroke(Palette.glowLine, lineWidth: 1))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title).font(.system(size: 14, weight: .medium)).foregroundStyle(Palette.ink)
+                    Text(title).font(.system(size: 14, weight: .medium)).foregroundStyle(Palette.text)
                     Text(detail).font(.system(size: 12)).foregroundStyle(Palette.sub).fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)

@@ -37,7 +37,7 @@ struct BoardView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 10)
             }
-            .background(Palette.mist.ignoresSafeArea())
+            .background(NightBackground())
             .overlay(alignment: .top) { comboBadge }
             .overlay {
                 if let result = model.result {
@@ -56,20 +56,15 @@ struct BoardView: View {
             Button {
                 model.closeBoard()
             } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Palette.sub)
-                    .frame(width: 44, height: 44)
-                    .background(Circle().fill(Palette.paper))
-                    .overlay(Circle().stroke(Palette.rule, lineWidth: 1))
+                GlassIcon(systemName: "xmark")
             }
             .accessibilityLabel(Text("盤を閉じる"))
             .accessibilityIdentifier("main.closeBoard")
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: session.title(japanese: model.japanese))
-                    .font(Typo.serif(18))
-                    .foregroundStyle(Palette.ink)
+                    .font(Typo.display(19, .regular))
+                    .foregroundStyle(Palette.text)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 Text(verbatim: session.mode.rule(japanese: model.japanese))
@@ -81,15 +76,15 @@ struct BoardView: View {
             Spacer(minLength: 4)
             VStack(alignment: .trailing, spacing: 0) {
                 Text("\(session.game.moves)")
-                    .font(Typo.serif(26))
+                    .font(Typo.display(30, .thin))
                     .kerning(-1)
                     .monospacedDigit()
-                    .foregroundStyle(Palette.ink)
+                    .foregroundStyle(Palette.text)
                     .contentTransition(.numericText())
                     .animation(.easeOut(duration: 0.25), value: session.game.moves)
                 Text("手数")
                     .font(Typo.label)
-                    .kerning(0.6)
+                    .kerning(1.2)
                     .foregroundStyle(Palette.sub)
             }
             .accessibilityElement(children: .combine)
@@ -107,7 +102,7 @@ struct BoardView: View {
                     card: card,
                     side: layout.side,
                     state: state(of: card, in: session.game),
-                    pairIndex: pairIndex[card.concept] ?? 0,
+                    style: PairStyle.of(pairIndex[card.concept] ?? 0, concept: card.concept),
                     rippleTick: model.ripple.card == card.id ? model.ripple.tick : 0,
                     shaking: model.shaking.contains(card.id),
                     celebrate: model.finishTick,
@@ -124,12 +119,15 @@ struct BoardView: View {
 
     private func footer(_ session: Session) -> some View {
         HStack(spacing: 8) {
-            // 残りのペア（点）
-            HStack(spacing: 5) {
+            // 残りのペア（そろえた順に、その音の色で光る点）
+            HStack(spacing: 6) {
                 ForEach(0..<session.game.pairs, id: \.self) { i in
+                    let found = session.game.foundOrder
+                    let tint = i < found.count ? Palette.tint(of: found[i]) : nil
                     Circle()
-                        .fill(i < session.game.pairs - session.game.pairsLeft ? Palette.sky : Palette.rule)
-                        .frame(width: 6, height: 6)
+                        .fill(tint ?? Palette.rule)
+                        .frame(width: 7, height: 7)
+                        .glow(tint ?? .clear, radius: 3, opacity: tint == nil ? 0 : 0.8)
                 }
             }
             .accessibilityElement()
@@ -153,11 +151,14 @@ struct BoardView: View {
     private var comboBadge: some View {
         if model.lastCombo > 1 && comboShown == model.comboTick && model.comboTick > 0 {
             Text("×\(model.lastCombo)")
-                .font(Typo.serif(20, .medium))
-                .foregroundStyle(Palette.peachDeep)
-                .padding(.horizontal, 14)
+                .font(Typo.display(24, .light))
+                .monospacedDigit()
+                .foregroundStyle(Palette.moon)
+                .padding(.horizontal, 16)
                 .padding(.vertical, 6)
-                .background(Capsule().fill(Palette.peachSoft))
+                .background(Capsule().fill(Palette.ebony.opacity(0.85)))
+                .overlay(Capsule().stroke(Palette.moon.opacity(0.5), lineWidth: 1))
+                .glow(Palette.moon, radius: 8, opacity: 0.45)
                 .padding(.top, 64)
                 .transition(.opacity.combined(with: .move(edge: .top)))
                 .accessibilityHidden(true)
@@ -195,7 +196,7 @@ struct CardView: View {
     let card: Card
     let side: CGFloat
     let state: FaceState
-    let pairIndex: Int
+    let style: PairStyle
     let rippleTick: Int
     let shaking: Bool
     let celebrate: Int
@@ -206,6 +207,8 @@ struct CardView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var bump = false
     @State private var lift = false
+    /// そろった瞬間、カードの外へ広がる光の輪（0 → 1）
+    @State private var burst: CGFloat = 1
 
     var body: some View {
         let up = state != .down
@@ -218,6 +221,18 @@ struct CardView: View {
                     .opacity(up ? 1 : 0)
             }
             .frame(width: side, height: side)
+            .background {
+                if !reduceMotion && burst < 1 {
+                    ForEach(0..<2) { i in
+                        let p = min(1, max(0, burst * 1.2 - CGFloat(i) * 0.2))
+                        RoundedRectangle(cornerRadius: radius * 1.4, style: .continuous)
+                            .stroke(style.tint, lineWidth: 2 - CGFloat(i) * 0.8)
+                            .scaleEffect(1 + p * 0.75)
+                            .opacity(Double(1 - p))
+                            .glow(style.tint, radius: 6, opacity: 0.6)
+                    }
+                }
+            }
             .rotation3DEffect(.degrees(up && !reduceMotion ? 180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.6)
             .scaleEffect(lift ? 1.06 : (bump ? 1.08 : 1))
             .modifier(ShakeEffect(travel: shaking && !reduceMotion ? 1 : 0))
@@ -234,6 +249,8 @@ struct CardView: View {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.75).delay(0.15)) { lift = false }
             }
             if new == .matched && old != .matched {
+                burst = 0
+                withAnimation(.easeOut(duration: 0.9).delay(0.12)) { burst = 1 }
                 withAnimation(.spring(response: 0.25, dampingFraction: 0.5)) { bump = true }
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.7).delay(0.2)) { bump = false }
             }
@@ -249,38 +266,35 @@ struct CardView: View {
 
     private var back: some View {
         RoundedRectangle(cornerRadius: radius, style: .continuous)
-            .fill(Palette.skySoft)
+            .fill(LinearGradient(colors: [Color(hex: 0x223268), Color(hex: 0x131C42)], startPoint: .top, endPoint: .bottom))
             .overlay(StillWater().clipShape(RoundedRectangle(cornerRadius: radius, style: .continuous)))
-            .overlay(
-                TuningFork()
-                    .fill(Palette.skyDeep.opacity(0.28))
-                    .frame(width: side * 0.13, height: side * 0.26)
-            )
-            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).stroke(Palette.skyLine, lineWidth: 1))
-            // 下辺だけ少し厚く：押せる札に見せる
+            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).stroke(Color.white.opacity(0.14), lineWidth: 1))
+            // 下辺だけ厚く：押せる鍵に見せる
             .background(
                 RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .fill(Palette.skyLine)
-                    .offset(y: 2.5)
+                    .fill(Palette.ebony)
+                    .offset(y: 3)
             )
-            .shadow(color: Palette.shadow, radius: 6, y: 3)
+            .shadow(color: Palette.shadow, radius: 6, y: 4)
     }
 
     private var front: some View {
         ZStack {
             RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .fill(Palette.paper)
+                .fill(Palette.ebony)
                 .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .stroke(state == .matched ? PairStyle.of(pairIndex).tint : Palette.skyLine, lineWidth: state == .matched ? 1.5 : 1))
-                .shadow(color: state == .listening ? Palette.shadowLift : Palette.shadow, radius: state == .listening ? 10 : 5, y: 4)
+                    .fill((state == .matched ? style.tint : Palette.glow).opacity(0.08)))
+                .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .stroke(state == .matched ? style.tint.opacity(0.8) : Palette.glowLine, lineWidth: state == .matched ? 1.5 : 1))
+                .glow(state == .matched ? style.tint : Palette.glow, radius: state == .listening ? 10 : 6, opacity: state == .listening ? 0.45 : 0.3)
             if state == .matched {
-                PairMark(style: PairStyle.of(pairIndex))
+                PairMark(style: style)
                     .padding(side * 0.16)
                     .padding(.bottom, label == nil ? 0 : side * 0.08)
                 if let label {
                     Text(verbatim: label)
                         .font(.system(size: max(9, side * 0.13), weight: .medium))
-                        .foregroundStyle(Palette.ink.opacity(0.75))
+                        .foregroundStyle(Palette.text.opacity(0.85))
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                         .padding(.horizontal, 4)
@@ -288,7 +302,7 @@ struct CardView: View {
                         .padding(.bottom, side * 0.07)
                 }
             } else {
-                ListeningRipple(trigger: rippleTick, tint: Palette.sky)
+                ListeningRipple(trigger: rippleTick, tint: Palette.glow)
                     .padding(side * 0.1)
             }
         }
