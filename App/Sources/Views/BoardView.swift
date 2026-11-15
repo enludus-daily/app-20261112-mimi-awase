@@ -214,9 +214,11 @@ struct CardView: View {
         let up = state != .down
         Button(action: action) {
             // 押せる枠は回らない四角にする（めくりの 3D 回転の途中でも、UI テストと VoiceOver から位置が決まるように）
-            Color.clear
+            // Color.clear は当たり判定から外れる（UI テストで「押せない」になった）。ほぼ透明な面にする
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+                .fill(Color.white.opacity(0.001))
                 .frame(width: side, height: side)
-                .contentShape(Rectangle())
+                .contentShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
                 .overlay { cardFace(up: up).allowsHitTesting(false).accessibilityHidden(true) }
         }
         .buttonStyle(PressStyle())
@@ -246,9 +248,12 @@ struct CardView: View {
         ZStack {
             back
                 .opacity(up ? 0 : 1)
-            front
-                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                .opacity(up ? 1 : 0)
+            // 表は、めくっている間だけ描く（伏せた 12 枚ぶんの光の影を描かない。CI のシミュレータで重くなり、UI テストが部品を見失った）
+            if up {
+                front
+                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                    .transition(.opacity)
+            }
         }
         .frame(width: side, height: side)
         .background {
