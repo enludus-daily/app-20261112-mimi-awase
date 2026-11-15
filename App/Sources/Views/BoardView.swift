@@ -213,31 +213,11 @@ struct CardView: View {
     var body: some View {
         let up = state != .down
         Button(action: action) {
-            ZStack {
-                back
-                    .opacity(up ? 0 : 1)
-                front
-                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                    .opacity(up ? 1 : 0)
-            }
-            .frame(width: side, height: side)
-            .background {
-                if !reduceMotion && burst < 1 {
-                    ForEach(0..<2) { i in
-                        let p = min(1, max(0, burst * 1.2 - CGFloat(i) * 0.2))
-                        RoundedRectangle(cornerRadius: radius * 1.4, style: .continuous)
-                            .stroke(style.tint, lineWidth: 2 - CGFloat(i) * 0.8)
-                            .scaleEffect(1 + p * 0.75)
-                            .opacity(Double(1 - p))
-                            .glow(style.tint, radius: 6, opacity: 0.6)
-                    }
-                }
-            }
-            .rotation3DEffect(.degrees(up && !reduceMotion ? 180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.6)
-            .scaleEffect(lift ? 1.06 : (bump ? 1.08 : 1))
-            .modifier(ShakeEffect(travel: shaking && !reduceMotion ? 1 : 0))
-            .animation(reduceMotion ? nil : .easeInOut(duration: 0.26), value: up)
-            .animation(.easeInOut(duration: 0.42), value: shaking)
+            // 押せる枠は回らない四角にする（めくりの 3D 回転の途中でも、UI テストと VoiceOver から位置が決まるように）
+            Color.clear
+                .frame(width: side, height: side)
+                .contentShape(Rectangle())
+                .overlay { cardFace(up: up).allowsHitTesting(false).accessibilityHidden(true) }
         }
         .buttonStyle(PressStyle())
         .disabled(state == .matched)
@@ -260,6 +240,34 @@ struct CardView: View {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.55).delay(celebrateDelay)) { bump = true }
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8).delay(celebrateDelay + 0.22)) { bump = false }
         }
+    }
+
+    private func cardFace(up: Bool) -> some View {
+        ZStack {
+            back
+                .opacity(up ? 0 : 1)
+            front
+                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                .opacity(up ? 1 : 0)
+        }
+        .frame(width: side, height: side)
+        .background {
+            if !reduceMotion && burst < 1 {
+                ForEach(0..<2) { i in
+                    let p = min(1, max(0, burst * 1.2 - CGFloat(i) * 0.2))
+                    RoundedRectangle(cornerRadius: radius * 1.4, style: .continuous)
+                        .stroke(style.tint, lineWidth: 2 - CGFloat(i) * 0.8)
+                        .scaleEffect(1 + p * 0.75)
+                        .opacity(Double(1 - p))
+                        .glow(style.tint, radius: 6, opacity: 0.6)
+                }
+            }
+        }
+        .rotation3DEffect(.degrees(up && !reduceMotion ? 180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.6)
+        .scaleEffect(lift ? 1.06 : (bump ? 1.08 : 1))
+        .modifier(ShakeEffect(travel: shaking && !reduceMotion ? 1 : 0))
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.26), value: up)
+        .animation(.easeInOut(duration: 0.42), value: shaking)
     }
 
     private var radius: CGFloat { Radius.card(side) }

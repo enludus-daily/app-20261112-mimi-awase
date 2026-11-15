@@ -286,12 +286,12 @@ struct NightPond: View {
             TimelineView(.animation(minimumInterval: 1.0 / 60, paused: drops.isEmpty)) { timeline in
                 Canvas { context, size in
                     // 月と、その映り
-                    let moon = CGPoint(x: size.width * 0.68, y: size.height * 0.3)
+                    let moon = CGPoint(x: size.width * 0.62, y: size.height * 0.46)
                     let mr = min(size.width, size.height) * 0.07
                     context.fill(Path(ellipseIn: CGRect(x: moon.x - mr * 2.4, y: moon.y - mr * 2.4, width: mr * 4.8, height: mr * 4.8)), with: .color(Palette.moon.opacity(0.06)))
                     context.fill(Path(ellipseIn: CGRect(x: moon.x - mr, y: moon.y - mr, width: mr * 2, height: mr * 2)), with: .color(Palette.moon.opacity(0.9)))
                     for j in 0..<5 {
-                        let y = size.height * (0.56 + CGFloat(j) * 0.08)
+                        let y = size.height * (0.64 + CGFloat(j) * 0.07)
                         let half = mr * (1.6 - CGFloat(j) * 0.25)
                         var p = Path()
                         p.move(to: CGPoint(x: moon.x - half, y: y))
