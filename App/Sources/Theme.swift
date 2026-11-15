@@ -129,9 +129,11 @@ extension View {
     }
 
     /// 光る（色の影を 2 重に）
+    /// 光らせないとき（opacity 0・radius 0）は、ぼかしを描かない（見えない影でも描画が重くなり、CI のシミュレータで UI テストが部品を見失った）
     func glow(_ color: Color, radius: CGFloat = 8, opacity: Double = 0.7) -> some View {
-        shadow(color: color.opacity(opacity), radius: radius)
-            .shadow(color: color.opacity(opacity * 0.4), radius: radius * 2.2)
+        let on = opacity > 0 && radius > 0
+        return shadow(color: on ? color.opacity(opacity) : .clear, radius: on ? radius : 0)
+            .shadow(color: on ? color.opacity(opacity * 0.4) : .clear, radius: on ? radius * 2.2 : 0)
     }
 }
 
