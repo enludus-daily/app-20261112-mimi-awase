@@ -28,6 +28,9 @@ struct RootView: View {
                     .transition(.opacity)
             }
         }
+        // シート（記録・設定・Pro）を開いている間は、下の画面を VoiceOver と UI テストから隠す
+        // （隠れたボタンが「押せない部品」として残り、UI テストの「主なボタンが押せる」が落ちていた。2026-11-16）
+        .accessibilityHidden(model.activeSheet != nil)
         .animation(.easeOut(duration: 0.3), value: model.session?.id)
         .animation(.easeOut(duration: 0.35), value: model.onboarded)
         .environment(model)
